@@ -15,7 +15,8 @@ def search_rt_resolution(video_url: str) -> list[str]:
         resolutions = [i.resolution for i in rt.playlist]
         return sorted(set(resolutions), reverse=True)
     except (URLError, ) as err:
-        st.error(err)
+        st.error(body=err)
+        st.stop()
 
 
 def prepare_rt_video(url: str, resolution: str):

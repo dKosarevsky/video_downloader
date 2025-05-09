@@ -8,7 +8,8 @@ def show_video(data, format_: str=MIME):
     try:
         st.video(data=data, format=format_)
     except MediaFileStorageError as err:
-        st.error(err)
+        st.error(body=err)
+        st.stop()
 
 
 def download_video_locally(title: str | None = None, file_name: str = DEFAULT_NAME, mime: str = MIME) -> None:

@@ -31,7 +31,8 @@ def get_yt_obj(url: str) -> YouTube:
             on_progress_callback=on_progress,
         )
     except (URLError, RegexMatchError, VideoUnavailable) as err:
-        st.error(err)
+        st.error(body=err)
+        st.stop()
 
 
 def search_yt_resolution(yt_obj: YouTube, progressive: bool) -> list[str]:
