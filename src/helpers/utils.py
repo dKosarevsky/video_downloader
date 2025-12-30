@@ -1,3 +1,5 @@
+from pathlib import Path
+
 import streamlit as st
 
 from streamlit.runtime.media_file_storage import MediaFileStorageError
@@ -13,8 +15,14 @@ def show_video(data, format_: str=MIME):
 
 
 def download_video_locally(title: str | None = None, file_name: str = DEFAULT_NAME, mime: str = MIME) -> None:
-    if title:
-        with open(file_name, 'rb') as file:
-            if st.download_button('Download', data=file, file_name=f'{title}.{DEFAULT_EXT}', mime=mime):
-                with st.spinner('Downloading Video ...'):
-                    st.success('Video Downloaded Successfully.')
+    if not title:
+        return
+
+    file_path = Path(file_name)
+    extension = file_path.suffix.removeprefix('.') or DEFAULT_EXT
+
+    with file_path.open('rb') as file:
+        download_name = f'{title}.{extension}'
+        if st.download_button('Download', data=file, file_name=download_name, mime=mime):
+            with st.spinner('Downloading ...'):
+                st.success('Download completed successfully.')
